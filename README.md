@@ -1,7 +1,7 @@
 # flutteranimation
 
 Flutter Animation Research
-By Panacea-Soft [ www.panacea-soft.com ]
+By Panacea-Soft { www.panacea-soft.com }
 
 ## Getting Started
 
