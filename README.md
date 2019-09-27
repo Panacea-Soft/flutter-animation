@@ -1,7 +1,7 @@
 # flutteranimation
 
 Flutter Animation Research
-By Panacea-Soft ( Panacea-Soft )
+By Panacea-Soft (www.panacea-soft.com)
 ## Getting Started
 
 This project is a starting point for a Flutter application.
