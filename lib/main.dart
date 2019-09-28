@@ -1,111 +1,244 @@
 import 'package:flutter/material.dart';
+import 'package:flutteranimation/explicit_animation_view.dart';
+import 'package:flutteranimation/implicit_animation_view.dart';
+import 'package:flutteranimation/route_paths.dart';
+import 'package:flutteranimation/transition_animation_view.dart';
+import 'package:vibration/vibration.dart';
 
 void main() => runApp(MyApp());
 
+const ps_default_font_family = "ProductSans";
+const Color ps_wtheme_text__primary_color = const Color(0xff607D8B);
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PS Flutter Animation',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+        debugShowCheckedModeBanner: false,
+        title: 'PS Flutter Animation',
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+          textTheme: TextTheme(
+            headline: TextStyle(
+              color: ps_wtheme_text__primary_color,
+              fontFamily: ps_default_font_family,
+            ),
+            title: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            subtitle: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            subhead: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            body1: TextStyle(
+              color: ps_wtheme_text__primary_color,
+              fontFamily: ps_default_font_family,
+            ),
+            body2: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            caption: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            button: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            overline: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            display1: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            display2: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            display3: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+            display4: TextStyle(
+                color: ps_wtheme_text__primary_color,
+                fontFamily: ps_default_font_family),
+          ),
+        ),
+        routes: {
+          '/': (context) => PSHomePage(),
+          "${RoutePaths.implicitAnimationViewWidget}": (context) =>
+              ImplicitAnimationViewWidget(),
+          "${RoutePaths.explicitAnimationViewWidget}": (context) =>
+              ExplicitAnimationViewWidget(),
+          "${RoutePaths.transitionAnimationViewWidget}": (context) =>
+              TransitionAnimationViewWidget()
+        });
+  }
+}
+
+class PSHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new HeaderWidget(),
+          SizedBox(height: 30),
+          new AnimationTypeCell(
+            boxColor: Colors.blue,
+            title: "Implicit Animation",
+            tag: "Implicit",
+            onClickCallback: (tag) {
+              Vibration.vibrate(duration: 50);
+              Navigator.pushNamed(
+                  context, RoutePaths.implicitAnimationViewWidget);
+            },
+          ),
+          SizedBox(height: 20),
+          new AnimationTypeCell(
+            boxColor: Colors.green,
+            title: "Transition Animation",
+            tag: "Transition",
+            onClickCallback: (tag) {
+              Vibration.vibrate(duration: 50);
+              Navigator.pushNamed(
+                  context, RoutePaths.transitionAnimationViewWidget);
+            },
+          ),
+          SizedBox(height: 20),
+          new AnimationTypeCell(
+            boxColor: Colors.orange,
+            title: "Explicit Animation",
+            tag: "Explicit",
+            onClickCallback: (tag) {
+              Vibration.vibrate(duration: 50);
+              Navigator.pushNamed(
+                  context, RoutePaths.explicitAnimationViewWidget);
+            },
+          )
+        ],
       ),
-      home: MyHomePage(title: 'PS Flutter Animation'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+class AnimationTypeCell extends StatelessWidget {
+  final Color boxColor;
   final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final String tag;
+  final Function onClickCallback;
+  const AnimationTypeCell(
+      {Key key, this.boxColor, this.title, this.tag, this.onClickCallback})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
+    return Hero(
+      tag: tag,
+      child: Container(
+        margin: EdgeInsets.only(left: 20, right: 20),
+        height: 100,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: boxColor,
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: boxColor.withOpacity(0.2),
+                offset: Offset(1.1, 1.1),
+                blurRadius: 8.0),
           ],
         ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              onClickCallback(tag);
+            },
+            child: Center(
+              child: Text(title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle
+                      .copyWith(fontSize: 16, color: Colors.white)),
+            ),
+          ),
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class HeaderWidget extends StatelessWidget {
+  const HeaderWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ClipPath(
+          child: Container(
+            width: double.infinity,
+            height: 195,
+            decoration: BoxDecoration(
+              color: Colors.deepOrange,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.deepOrange.withOpacity(0.3),
+                    offset: Offset(0, 0),
+                    blurRadius: 8.0),
+              ],
+            ),
+          ),
+          clipper: new WaveClipper(),
+        ),
+        Container(
+          height: 180,
+          width: double.infinity,
+          margin: EdgeInsets.only(top: 16, left: 30, right: 30),
+          child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset("assets/images/ps_logo.png",
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.fitWidth,
+                    color: Colors.white),
+                Text(
+                  "www.panacea-soft.com",
+                  textAlign: TextAlign.end,
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle
+                      .copyWith(color: Colors.white),
+                )
+              ]),
+        )
+      ],
+    );
+  }
+}
+
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height);
+    var curXPos = 0.0;
+    var curYPos = size.height;
+    var increment = size.width / 20;
+    while (curXPos < size.width) {
+      curXPos += increment;
+      path.arcToPoint(Offset(curXPos, curYPos), radius: Radius.circular(5));
+    }
+    path.lineTo(size.width, 0);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(WaveClipper oldClipper) => false;
 }
